@@ -1,49 +1,73 @@
 import React, { useState } from "react";
-import ReactMarkdown from "react-markdown/with-html";
-import logo from "./logo.svg";
-import "./App.css";
 import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
-// import Group from "react-bootstrap/Group"
-// import Control from "react-bootstrap/Control"
-// import Label from "react-bootstrap/Label"
+import Heading from "./components/Heading";
+import Editor from "./components/Editor";
+import Viewer from "./components/Viewer";
 
 const App = () => {
-  const [editorText, setEditorText] = useState("");
+  const [editorText, setEditorText] = useState(initState);
 
   return (
-    <div style={{ backgroundColor: "green" }}>
-      <Container>
-        <h1 className="text-center py-3 display-4">Markdown Previewer</h1>
+    <div style={{ overflow: "hidden" }}>
+      <Container className="shadow">
+        <h1 className="text-center py-3 ">
+          <Heading heading="Markdown Previewer" />
+        </h1>
         <Row>
-          <Col className="border py-3" sm={6}>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Editor </Form.Label>
-              <Form.Control
-                value={editorText}
-                onChange={(e) => setEditorText(e.target.value)}
-                rows="15"
-                as="textarea"
-                // style={{ height: "50vh", backgroundColor: "green" }}
-              />
-            </Form.Group>
-          </Col>
-          <Col className="border py-3" sm={6}>
-            <Form.Label>Viewer</Form.Label>
-
-            <p>
-              <ReactMarkdown
-                source={editorText}
-                escapeHtml={false}
-              ></ReactMarkdown>
-            </p>
-          </Col>
+          <Editor text={editorText} setText={setEditorText} />
+          <Viewer text={editorText} />
         </Row>
       </Container>
     </div>
   );
 };
+
+const initState = `# Welcome to my React Markdown Previewer!
+  
+  ## This is a sub-heading...
+  ### And here's some other cool stuff:
+    
+  Heres some code, \`<div></div>\`, between 2 backticks.
+  
+  \`\`\`
+  // this is multi-line code:
+  
+  function anotherExample(firstLine, lastLine) {
+    if (firstLine == '\`\`\`' && lastLine == '\`\`\`') {
+      return multiLineCode;
+    }
+  }
+  \`\`\`
+    
+  You can also make text **bold**... whoa!
+  Or _italic_.
+  Or... wait for it... **_both!_**
+  And feel free to go crazy ~~crossing stuff out~~.
+  
+  There's also [links](https://www.freecodecamp.com), and
+  > Block Quotes!
+  
+  And if you want to get really crazy, even tables:
+  
+  Wild Header | Crazy Header | Another Header?
+  ------------ | ------------- | ------------- 
+  Your content can | be here, and it | can be here....
+  And here. | Okay. | I think we get it.
+  
+  - And of course there are lists.
+    - Some are bulleted.
+       - With different indentation levels.
+          - That look like this.
+  
+  
+  1. And there are numbererd lists too.
+  1. Use just 1s if you want! 
+  1. But the list goes on...
+  - Even if you use dashes or asterisks.
+  * And last but not least, let's not forget embedded images:
+  
+  ![React Logo w/ Text](https://goo.gl/Umyytc)
+  `;
 
 export default App;
